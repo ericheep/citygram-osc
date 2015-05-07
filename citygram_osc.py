@@ -66,26 +66,28 @@ def multiCurl(rsds, feature, window=1):
 
     means = []
     stds = []
+    rsd_ids = []
 
     for rsd in range(len(rsds)):
         if 'featurelist' in body['data'][str(rsd)]:
             features = body['data'][str(rsd)]['featurelist']
-            print(body['data'][str(rsd)]['id'])
+
             val = np.empty(len(features))
             for idx in range(len(features)):
                 val[idx] = (features[idx]['val'])
 
             means.append(np.mean(val))
             stds.append(np.std(val))
+            rsd_ids.append(int(body['data'][str(rsd)]['id'].split('calarts')[1]))
 
-    return means, stds
+    return means, stds, rsd_ids
 
 # add more rsds as they're available
 rsds = [
     'rsdcalarts1', 'rsdcalarts2', 'rsdcalarts3', 'rsdcalarts4',
     'rsdcalarts5', 'rsdcalarts6', 'rsdcalarts7', 'rsdcalarts8',
     'rsdcalarts9', 'rsdcalarts10', 'rsdcalarts11', 'rsdcalarts12',
-    'rsdcalarts13', 'rsdcalarts14']
+    'rsdcalarts13', 'rsdcalarts14', 'rsdcalarts16', 'rsdcalarts16']
 
 
 client = udp_client.UDPClient("127.0.0.1", 12345)
@@ -93,26 +95,35 @@ client = udp_client.UDPClient("127.0.0.1", 12345)
 # main loop
 while True:
     # start message
+    ids = osc_message_builder.OscMessageBuilder(address='/ids')
     rms = osc_message_builder.OscMessageBuilder(address='/rms')
     cent = osc_message_builder.OscMessageBuilder(address='/centroid')
 
-    #print(multiCurl(rsds, 'td_rms', 1))
     # add args
-    rms.add_arg(np.mean(multiCurl(rsds, 'td_rms', 1)[0]), arg_type='f')
-    rms.add_arg(np.mean(multiCurl(rsds, 'td_rms', 1)[1]), arg_type='f')
-    rms.add_arg(np.argmax(multiCurl(rsds, 'td_rms', 1)[1]), arg_type='i')
-    cent.add_arg(np.mean(multiCurl(rsds, 'fd_centroid', 1)[0]), arg_type='f')
-    cent.add_arg(np.mean(multiCurl(rsds, 'fd_centroid', 1)[1]), arg_type='f')
-    cent.add_arg(np.argmax(multiCurl(rsds, 'fd_centroid', 1)[1]), arg_type='i')
-    print(np.argmax(multiCurl(rsds, 'fd_centroid', 1)[1]))
+    rms_vals = multiCurl(rsds, 'td_rms', 1)
+    for idx in range(len(rms_vals[0])):
+        rms.add_arg(rms_vals[0][idx], arg_type='f')
+
+    #rms.add_arg(np.mean(rms_vals[1]), arg_type='f')
+
+    cent_vals =multiCurl(rsds, 'fd_centroid', 1)
+    for idx in range(len(cent_vals[0])):
+        cent.add_arg(cent_vals[0][idx], arg_type='f')
+
+    ids.add_arg(len(rms_vals[2]), arg_type='i')
 
     # build
+    ids = ids.build()
     rms = rms.build()
     cent = cent.build()
 
-    # sends osc
+    # sends number of ids, sleeps for a bit
+    client.send(ids)
+    time.sleep(0.01)
+
+    # sends the rest
     client.send(rms)
     client.send(cent)
 
     # one second per loop
-    time.sleep(1)
+    # time.sleep(0.1)
