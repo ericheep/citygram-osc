@@ -70,8 +70,8 @@ def multiCurl(rsds, feature, window=1):
     for rsd in range(len(rsds)):
         if 'featurelist' in body['data'][str(rsd)]:
             features = body['data'][str(rsd)]['featurelist']
+            print(body['data'][str(rsd)]['id'])
             val = np.empty(len(features))
-
             for idx in range(len(features)):
                 val[idx] = (features[idx]['val'])
 
@@ -83,7 +83,10 @@ def multiCurl(rsds, feature, window=1):
 # add more rsds as they're available
 rsds = [
     'rsdcalarts1', 'rsdcalarts2', 'rsdcalarts3', 'rsdcalarts4',
-    'rsdcalarts5', 'rsdcalarts6', 'rsdcalarts7', 'rsdcalarts8']
+    'rsdcalarts5', 'rsdcalarts6', 'rsdcalarts7', 'rsdcalarts8',
+    'rsdcalarts9', 'rsdcalarts10', 'rsdcalarts11', 'rsdcalarts12',
+    'rsdcalarts13', 'rsdcalarts14']
+
 
 client = udp_client.UDPClient("127.0.0.1", 12345)
 
@@ -93,11 +96,15 @@ while True:
     rms = osc_message_builder.OscMessageBuilder(address='/rms')
     cent = osc_message_builder.OscMessageBuilder(address='/centroid')
 
+    #print(multiCurl(rsds, 'td_rms', 1))
     # add args
     rms.add_arg(np.mean(multiCurl(rsds, 'td_rms', 1)[0]), arg_type='f')
     rms.add_arg(np.mean(multiCurl(rsds, 'td_rms', 1)[1]), arg_type='f')
+    rms.add_arg(np.argmax(multiCurl(rsds, 'td_rms', 1)[1]), arg_type='i')
     cent.add_arg(np.mean(multiCurl(rsds, 'fd_centroid', 1)[0]), arg_type='f')
     cent.add_arg(np.mean(multiCurl(rsds, 'fd_centroid', 1)[1]), arg_type='f')
+    cent.add_arg(np.argmax(multiCurl(rsds, 'fd_centroid', 1)[1]), arg_type='i')
+    print(np.argmax(multiCurl(rsds, 'fd_centroid', 1)[1]))
 
     # build
     rms = rms.build()
