@@ -95,9 +95,9 @@ client = udp_client.UDPClient("127.0.0.1", 12345)
 # main loop
 while True:
     # start message
-    ids = osc_message_builder.OscMessageBuilder(address='/ids')
-    rms = osc_message_builder.OscMessageBuilder(address='/rms')
-    cent = osc_message_builder.OscMessageBuilder(address='/centroid')
+    ids = osc_message_builder.OscMessageBuilder(address='/numRsds')
+    rms = osc_message_builder.OscMessageBuilder(address='/allRms')
+    cent = osc_message_builder.OscMessageBuilder(address='/allCentroid')
     mean_rms = osc_message_builder.OscMessageBuilder(address='/meanRms')
     mean_cent = osc_message_builder.OscMessageBuilder(address='/meanCentroid')
 
