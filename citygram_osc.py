@@ -106,7 +106,7 @@ while True:
 
     #rms.add_arg(np.mean(rms_vals[1]), arg_type='f')
 
-    cent_vals =multiCurl(rsds, 'fd_centroid', 1)
+    cent_vals = multiCurl(rsds, 'fd_centroid', 1)
     for idx in range(len(cent_vals[0])):
         cent.add_arg(cent_vals[0][idx], arg_type='f')
 

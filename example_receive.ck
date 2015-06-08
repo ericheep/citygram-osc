@@ -13,10 +13,10 @@ while (true) {
     oin => now;
     while (oin.recv(msg)) {
         if (msg.address == "/rms") {
-            <<< msg.getFloat(0), msg.getFloat(1) >>>;
+            <<< "rms:", msg.getFloat(0), msg.getFloat(1), msg.getFloat(2) >>>;
         }
         if (msg.address == "/centroid") {
-            <<< msg.getFloat(0), msg.getFloat(1) >>>;
+            <<< "centroid", msg.getFloat(0), msg.getFloat(1), msg.getFloat(2) >>>;
         }
     }
 } 
