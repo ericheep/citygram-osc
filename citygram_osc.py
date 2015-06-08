@@ -95,20 +95,24 @@ client = udp_client.UDPClient("127.0.0.1", 12345)
 # main loop
 while True:
     # start message
-    ids = osc_message_builder.OscMessageBuilder(address='/ids')
-    rms = osc_message_builder.OscMessageBuilder(address='/rms')
-    cent = osc_message_builder.OscMessageBuilder(address='/centroid')
+    ids = osc_message_builder.OscMessageBuilder(address='/numRsds')
+    rms = osc_message_builder.OscMessageBuilder(address='/allRms')
+    cent = osc_message_builder.OscMessageBuilder(address='/allCentroid')
+    mean_rms = osc_message_builder.OscMessageBuilder(address='/meanRms')
+    mean_cent = osc_message_builder.OscMessageBuilder(address='/meanCentroid')
 
     # add args
     rms_vals = multiCurl(rsds, 'td_rms', 1)
     for idx in range(len(rms_vals[0])):
         rms.add_arg(rms_vals[0][idx], arg_type='f')
 
-    #rms.add_arg(np.mean(rms_vals[1]), arg_type='f')
+    mean_rms.add_arg(np.mean(rms_vals[0]), arg_type='f')
 
     cent_vals = multiCurl(rsds, 'fd_centroid', 1)
     for idx in range(len(cent_vals[0])):
         cent.add_arg(cent_vals[0][idx], arg_type='f')
+
+    mean_cent.add_arg(np.mean(cent_vals[0]), arg_type='f')
 
     ids.add_arg(len(rms_vals[2]), arg_type='i')
 
@@ -116,6 +120,8 @@ while True:
     ids = ids.build()
     rms = rms.build()
     cent = cent.build()
+    mean_rms = mean_rms.build()
+    mean_cent = mean_cent.build()
 
     # sends number of ids, sleeps for a bit
     client.send(ids)
@@ -124,6 +130,8 @@ while True:
     # sends the rest
     client.send(rms)
     client.send(cent)
+    client.send(mean_rms)
+    client.send(mean_cent)
 
     # one second per loop
     # time.sleep(0.1)
