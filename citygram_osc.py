@@ -103,6 +103,7 @@ while True:
 
     # add args
     rms_vals = multiCurl(rsds, 'td_rms', 1)
+    print(len(rms_vals))
     for idx in range(len(rms_vals[0])):
         rms.add_arg(rms_vals[0][idx], arg_type='f')
 
@@ -125,7 +126,7 @@ while True:
 
     # sends number of ids, sleeps for a bit
     client.send(ids)
-    time.sleep(0.01)
+    time.sleep(0.001)
 
     # sends the rest
     client.send(rms)

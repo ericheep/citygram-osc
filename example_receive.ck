@@ -17,20 +17,21 @@ while (true) {
     while (oin.recv(msg)) {
         if (msg.address =="/numRsds") {
             msg.getInt(0) => num_rsds;
+            <<< "NumRDSs", num_rsds >>>;
         }
         if (msg.address =="/allRms") {
             string all_rms;
             for (int i; i < num_rsds; i++) {
                 msg.getFloat(i) + " " +=> all_rms; 
             }
-            <<< "RMS:", all_rms, "" >>>;
+            //<<< "RMS:", all_rms, "" >>>;
         }
         if (msg.address =="/allCentroid") {
             string all_centroid;
             for (int i; i < num_rsds; i++) {
                 msg.getFloat(i) + " " +=> all_centroid; 
             }
-            <<< "Centroids:", all_centroid, "" >>>;
+            //<<< "Centroids:", all_centroid, "" >>>;
         }
         if (msg.address == "/meanRms") {
             <<< "Overall mean RMS:", msg.getFloat(0) >>>;

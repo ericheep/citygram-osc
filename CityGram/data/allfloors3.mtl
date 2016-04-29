@@ -1,0 +1,61 @@
+# Alias Wavefront MTL File Exported from SketchUp
+# with OBJexporter (c) 2013 TIG
+# Made for 'allfloors3.obj'
+
+newmtl Default_Material
+Ka 1 1 1
+Kd 1 1 1
+Ks 0.333 0.333 0.333
+Ns 0
+d 1
+Tr 1
+
+newmtl Material2
+Ka 1 0.501961 0
+Kd 1 0.501961 0
+Ks 0.333 0.333 0.333
+Ns 0
+d 0.3
+Tr 0.3
+
+newmtl Material3
+Ka 1 1 0
+Kd 1 1 0
+Ks 0.333 0.333 0.333
+Ns 0
+d 0.3
+Tr 0.3
+
+newmtl Material4
+Ka 0 0.501961 0.501961
+Kd 0 0.501961 0.501961
+Ks 0.333 0.333 0.333
+Ns 0
+d 0.3
+Tr 0.3
+
+newmtl Material1
+Ka 0.25098 0.501961 0
+Kd 0.25098 0.501961 0
+Ks 0.333 0.333 0.333
+Ns 0
+d 0.3
+Tr 0.3
+
+newmtl Material5
+Ka 0.501961 0 0.501961
+Kd 0.501961 0 0.501961
+Ks 0.333 0.333 0.333
+Ns 0
+d 0.3
+Tr 0.3
+
+newmtl Material6
+Ka 0 0.501961 1
+Kd 0 0.501961 1
+Ks 0.333 0.333 0.333
+Ns 0
+d 0.3
+Tr 0.3
+
+#EOF
