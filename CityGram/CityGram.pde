@@ -21,8 +21,6 @@ import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2ES2;
 
 // full screen
-
-
 OscP5 oscP5;
 NetAddress myRemoteLocation;
 
